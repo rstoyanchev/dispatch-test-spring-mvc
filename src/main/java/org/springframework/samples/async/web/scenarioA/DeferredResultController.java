@@ -39,10 +39,10 @@ public class DeferredResultController extends AbstractController {
 
 
 	@RequestMapping("/c")
-	public DeferredResult<String> handleC(final @RequestParam(required = false) String timeoutValue) {
+	public DeferredResult<String> handleC(final @RequestParam(required = false) String timeoutResult) {
 
-		this.deferredResult = (timeoutValue != null) ?
-				new DeferredResult<String>(timeoutValue) : new DeferredResult<String>();
+		this.deferredResult = (timeoutResult != null) ?
+				new DeferredResult<String>(null, timeoutResult) : new DeferredResult<String>();
 
 		return this.deferredResult;
 	}
@@ -59,7 +59,7 @@ public class DeferredResultController extends AbstractController {
 			Thread.sleep(getTimeoutInSeconds());
 		}
 
-		deferredResult.set("forward:d");
+		deferredResult.setResult("forward:d");
 
 		deferredResult = null;
 

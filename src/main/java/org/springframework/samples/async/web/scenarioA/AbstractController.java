@@ -15,6 +15,9 @@
  */
 package org.springframework.samples.async.web.scenarioA;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -72,10 +75,12 @@ public abstract class AbstractController {
 		return "page";
 	}
 
-	@RequestMapping("/responseBody")
+	@RequestMapping(value="/responseBody", produces="application/json")
 	@ResponseBody
-	public String handleResponseBody() throws Exception {
-		return "This content rendered via " + getMethodInfo("handleResponseBody");
+	public Map<String, String> handleResponseBody() throws Exception {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("name", "Jad");
+		return map;
 	}
 
 	String getMethodInfo(String methodName, Class<?>...argTypes) throws NoSuchMethodException {

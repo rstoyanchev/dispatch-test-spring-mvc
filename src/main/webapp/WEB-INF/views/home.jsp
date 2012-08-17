@@ -15,8 +15,8 @@
     <li><a href="callableScenario/a?end=responseBody">End with @ResponseBody</a>
     <li><a href="callableScenario/a?callableHint=redirect">Redirect and end with JSP View</a> 
         (Tomcat issue <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=53624">53624</a>)
-    <li><a href="callableScenario/a?callableHint=IllegalStateException">Raise and resolve Exception</a>
-    <li><a href="callableScenario/a?callableHint=IllegalArgumentException">Raise Exception</a>
+    <li><a href="callableScenario/a?callableHint=IllegalStateException">Raise <em>and resolve</em> Exception</a>
+    <li><a href="callableScenario/a?callableHint=IllegalArgumentException">Raise <em>unhandled</em> Exception</a>
     <li><a href="callableScenario/a?callableHint=timeout">Timeout</a>
   </ul>
 
@@ -31,7 +31,7 @@
     <li><a href="deferredResultScenario/a?end=viewName">Start JSP view</a> <strong>then</strong> <a href="deferredResultScenario/ping" target="tab">ping to set</a>
     <li><a href="deferredResultScenario/a?end=responseBody">Start @ResponseBody</a> <strong>then</strong> <a href="deferredResultScenario/ping" target="tab">ping to set</a>
     <li><a href="deferredResultScenario/a">Start</a> <strong>then</strong> <a href="deferredResultScenario/ping?deferredResultHint=timeout" target="tab">ping and wait for timeout before set</a>
-    <li><a href="deferredResultScenario/a?timeoutValue=page">Use default value on timeout</a>
+    <li><a href="deferredResultScenario/a?timeoutResult=page">Use default value on timeout</a>
   </ul>
 
 </body>
