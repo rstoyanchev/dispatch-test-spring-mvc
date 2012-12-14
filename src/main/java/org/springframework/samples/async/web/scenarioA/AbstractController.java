@@ -18,6 +18,10 @@ package org.springframework.samples.async.web.scenarioA;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +33,8 @@ import org.springframework.web.bind.support.SessionStatus;
 
 @SessionAttributes(value={"end"})
 public abstract class AbstractController {
+
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
  	private final long asyncTimeoutValue;
 
@@ -43,13 +49,15 @@ public abstract class AbstractController {
 
 
 	@RequestMapping("/a")
-	public String handleA(@RequestParam(required=false, defaultValue="viewName") String end, Model model) {
+	public String handleA(@RequestParam(required=false, defaultValue="viewName") String end, Model model, HttpServletResponse response) {
 		model.addAttribute("end", end);
+		logger.debug("\nresponse type {}", response.getClass().getName());
 		return "forward:b";
 	}
 
 	@RequestMapping("/b")
-	public String handleB() {
+	public String handleB(HttpServletResponse response) {
+		logger.debug("\nresponse type {}", response.getClass().getName());
 		return "forward:c";
 	}
 
@@ -65,8 +73,9 @@ public abstract class AbstractController {
 	}
 
 	@RequestMapping("/d")
-	public String handleD(@ModelAttribute("end") String end, SessionStatus status) {
+	public String handleD(@ModelAttribute("end") String end, SessionStatus status, HttpServletResponse response) {
 		status.setComplete();
+		logger.debug("\nresponse type {}", response.getClass().getName());
 		return "forward:" + end;
 	}
 

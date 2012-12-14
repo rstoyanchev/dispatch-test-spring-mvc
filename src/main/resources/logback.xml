@@ -5,10 +5,18 @@
 			<Pattern>%d{HH:mm:ss} [%thread] %logger{0} - %msg%n</Pattern>
 		</layout>
 	</appender>
+
+	<logger name="org.springframework.samples" level="DEBUG" />
+
 	<logger name="org.springframework.web" level="DEBUG" />
+	<logger name="org.springframework.web.filter" level="TRACE" />
 	<logger name="org.springframework.web.servlet.DispatcherServlet" level="TRACE" />
+
 	<logger name="org.springframework.orm" level="DEBUG" />
+
 	<logger name="org.springframework.transaction.support" level="TRACE" />
+	<logger name="org.springframework.orm.hibernate4.support" level="DEBUG" />
+
 	<root level="info">
 		<appender-ref ref="STDOUT" />
 	</root>

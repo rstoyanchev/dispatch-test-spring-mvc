@@ -17,6 +17,8 @@ package org.springframework.samples.async.web.scenarioA;
 
 import java.util.concurrent.Callable;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -37,7 +39,6 @@ public class CallableController extends AbstractController {
 		super(asyncTimeoutValue);
 	}
 
-
 	@RequestMapping("/c")
 	public Callable<String> handleC(final @RequestParam(value="callableHint", required = false) String hint) {
 
@@ -51,13 +52,13 @@ public class CallableController extends AbstractController {
 				Assert.notNull(RequestContextHolder.getRequestAttributes(), "Request context not available");
 
 				if (IllegalStateException.class.getSimpleName().equals(hint)) {
-					throw new IllegalStateException("Exception raised by " + getMethodInfo("handleC", String.class));
+					throw new IllegalStateException("Exception raised by " + getMethodInfo("handleC", String.class, HttpServletResponse.class));
 				}
 				else if (IllegalArgumentException.class.getSimpleName().equals(hint)){
 					throw new IllegalArgumentException("Exception raised by " + getMethodInfo("handleC", String.class));
 				}
 				else if ("timeout".equals(hint)) {
-					Thread.sleep(getTimeoutInSeconds() * 1000);
+					Thread.sleep(getTimeoutInSeconds());
 				}
 
 				return ("redirect".equals(hint)) ? "redirect:d" : "forward:d";

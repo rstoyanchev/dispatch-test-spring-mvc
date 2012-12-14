@@ -16,16 +16,11 @@
 
 package org.springframework.samples.async.config;
 
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.Filter;
 
 import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -33,30 +28,6 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class<?>[] { RootConfig.class };
-	}
-
-	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-
-		FilterRegistration.Dynamic registration;
-
-		EnumSet<DispatcherType> allDispatcherTypes =
-				EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ASYNC);
-
-//		registration = servletContext.addFilter("urlRewriteFilter", UrlRewriteFilter.class);
-//		registration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
-//		registration.setInitParameter("logLevel", "DEBUG");
-//		registration.setAsyncSupported(true);
-
-		registration = servletContext.addFilter("osivFilter", OpenSessionInViewFilter.class);
-		registration.addMappingForServletNames(allDispatcherTypes, false, "main");
-		registration.setAsyncSupported(true);
-
-		registration = servletContext.addFilter("requestLoggingFilter", CommonsRequestLoggingFilter.class);
-		registration.addMappingForServletNames(allDispatcherTypes, false, "main");
-		registration.setAsyncSupported(true);
-
-		super.onStartup(servletContext);
 	}
 
 	@Override
@@ -75,8 +46,9 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 	}
 
 	@Override
-	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-		registration.setAsyncSupported(true);
+	protected Filter[] getServletFilters() {
+		return new Filter[] { new OpenSessionInViewFilter(), new CommonsRequestLoggingFilter() };
+//		return new Filter[] { new ShallowEtagHeaderFilter() };
 	}
 
 }
